@@ -33,6 +33,8 @@ block content
     h1 #{ns}
 
     #statuses(ng-controller="StatusController")
+        h3(ng-show="Statuses.length == 0") ...waiting for statuses...
+
         ul
             li(ng-repeat="status in Statuses")
                 div.name {{status.name}}
