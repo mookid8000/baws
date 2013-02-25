@@ -1,0 +1,10 @@
+extend layout
+block content
+    h1 hello there!
+
+    script(type='text/javascript')
+        var io = io.connect();
+        io.on('news', function(data) {
+            alert('server sent: "hello ' + data.hello + ' world"')
+        });
+        io.emit('my other event', 'MUAHAHAHAHAH!')
