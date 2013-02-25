@@ -8,9 +8,12 @@ app.use(express.static('public'));
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jade')
 
-app.get('/:ns', function(req, res) {
+var index = function(req, res) {
     res.render('index', { ns: req.params.ns });
-});
+};
+
+app.get('/', index);
+app.get('/:ns', index);
 
 app.post('/status', function(req, res) {
     var body = req.body;

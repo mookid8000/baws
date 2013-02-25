@@ -28,12 +28,39 @@ block content
                 var percentage = fraction * 100;
                 return { width: percentage + "%" };
             };
+
+            $scope.ns = '#{ns}';
         };
 
     h1 #{ns}
 
     #statuses(ng-controller="StatusController")
-        h3(ng-show="Statuses.length == 0") ...waiting for statuses...
+        div(ng-show="Statuses.length == 0")
+            h3 ...waiting for statuses...
+            pre
+                ~ POST /status
+                ~ {
+                ~     ns: "BigSystem",
+                ~     name: "SomeMachine:Ram",
+                ~     status: {
+                ~         type: "meter",
+                ~         min: 0,
+                ~         max: 100,
+                ~         value: 82,
+                ~         label: "4.6 GB (82 %)"
+                ~     }
+                ~ }
+                ~
+                ~ POST /status
+                ~ {
+                ~     ns: "BigSystem",
+                ~     name: "SomeProgram:CI-status",
+                ~     status: {
+                ~         type: "stoplight",
+                ~         color: "green",
+                ~         label: "It's ok."
+                ~     }
+                ~ }
 
         ul
             li(ng-repeat="status in Statuses")
