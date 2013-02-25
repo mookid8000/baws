@@ -4,8 +4,10 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "node.js": "0.4.7",
     "express.io": "*",
     "jade": "*"
+  },
+  "engines": {
+    "node": "0.8.20"
   }
 }
