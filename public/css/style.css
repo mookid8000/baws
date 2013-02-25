@@ -3,3 +3,23 @@ body {
     font-size: 2em;
     letter-spacing: -0.15em;
 }
+
+#statuses li {
+    list-style: none;
+    border: 1px solid black;
+    float: left;
+    margin: 1em;
+    padding: 0;
+}
+
+#statuses {
+    font-family: sans-serif;
+    font-size: .8em;
+    letter-spacing: -0.08em;
+}
+
+#statuses .name {
+    background-color: black;
+    color: white;
+    margin-bottom: 0.1em;
+}

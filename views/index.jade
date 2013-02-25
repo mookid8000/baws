@@ -1,10 +1,47 @@
 extend layout
 block content
+    script(type="text/javascript")
+        var io = io.connect();
+
+        function StatusController($scope) {
+            $scope.Statuses = [
+                {ns: "test", name: "bim1", status: {type: "stoplight", color: "green"}},
+                {ns: "test", name: "bim2", status: {type: "stoplight", color: "yellow"}},
+                {ns: "test", name: "bim3", status: {type: "stoplight", color: "green"}},
+                {ns: "test", name: "bim4", status: {type: "stoplight", color: "green"}},
+                {ns: "test", name: "bim5", status: {type: "stoplight", color: "green"}},
+                {ns: "test", name: "bim6", status: {type: "stoplight", color: "red"}},
+                {ns: "test", name: "client1", status: {type: "stoplight", color: "red"}},
+                {ns: "test", name: "bim7", status: {type: "meter", value: 4, min: 0, max: 10}},
+                {ns: "test", name: "bim8", status: {type: "meter", value: 9, min: 0, max: 10}},
+                {ns: "test", name: "bim9", status: {type: "meter", value: 15, min: 0, max: 100}}
+            ];
+
+            io.on('new status', function(data) {
+                var name = data.name;
+                var elementToUpdate = _.find($scope.Statuses, function(value) {
+                    return value.name === name;
+                });
+
+                if (typeof elementToUpdate === 'undefined') {
+                    elementToUpdate = {ns: data.ns, name: data.name};
+
+                    $scope.Statuses.push(elementToUpdate);
+                }
+
+                elementToUpdate.status = data.status;
+            });
+        };
+
     h1 hello there!
 
-    script(type='text/javascript')
-        var io = io.connect();
-        io.on('news', function(data) {
-            alert('server sent: "hello ' + data.hello + ' world"')
-        });
-        io.emit('my other event', 'MUAHAHAHAHAH!')
+    #statuses(ng-controller="StatusController")
+        ul
+            li(ng-repeat="status in Statuses")
+                div.name {{status.name}}
+                
+                div.stoplight(ng-show="status.status.type == 'stoplight'")
+                    {{status.status.color}}
+
+                div.meter(ng-show="status.status.type == 'meter'")
+                    {{status.status.value}}

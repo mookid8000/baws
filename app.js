@@ -12,10 +12,8 @@ app.set('view engine', 'jade')
 io.on('connection', function(socket) {
     console.log('new connection!');
 
-    socket.emit('news', {hello: "world"});
-    socket.on('my other event', function(data) {
-        console.log('got other event: %s', data);
-    });
+    //socket.emit('news', {hello: "world"});
+    //socket.on('new status', function(data) { });
 });
 
 io.on('my other event', function(socket) {
@@ -28,7 +26,8 @@ app.get('/', function(req, res) {
 
 app.post('/status', function(req, res) {
     var body = req.body;
-    console.log('%s/%s: %s', body.ns, body.name, body.status.color);
+    //console.log('%s/%s: %s', body.ns, body.name, body.status.color);
+    req.io.broadcast('new status', body);
     res.end();
 });
 
