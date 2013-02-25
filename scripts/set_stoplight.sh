@@ -11,7 +11,7 @@ do
     for value in green green green yellow red red red yellow yellow
     do
         curl -i -X POST \
-            http://baws.herokuapp.com/status \
+            http://localhost:3000/status \
             -H "Accept: application/json" \
             -H "Content-Type: application/json" \
             -d '{"ns": "test", "name": "'$1'", "status": {"type": "stoplight", "color": "'$value'", "label": "'$value'"}}'
