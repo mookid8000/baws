@@ -4,20 +4,9 @@ block content
         var io = io.connect();
 
         function StatusController($scope) {
-            $scope.Statuses = [
-                {ns: "test", name: "bim1", status: {type: "stoplight", color: "green"}},
-                {ns: "test", name: "bim2", status: {type: "stoplight", color: "yellow"}},
-                {ns: "test", name: "bim3", status: {type: "stoplight", color: "green"}},
-                {ns: "test", name: "bim4", status: {type: "stoplight", color: "green"}},
-                {ns: "test", name: "bim5", status: {type: "stoplight", color: "green"}},
-                {ns: "test", name: "bim6", status: {type: "stoplight", color: "red"}},
-                {ns: "test", name: "client1", status: {type: "stoplight", color: "red"}},
-                {ns: "test", name: "bim7", status: {type: "meter", value: 4, min: 0, max: 10}},
-                {ns: "test", name: "bim8", status: {type: "meter", value: 9, min: 0, max: 10}},
-                {ns: "test", name: "bim9", status: {type: "meter", value: 15, min: 0, max: 100}}
-            ];
+            $scope.Statuses = [];
 
-            io.on('new status', function(data) {
+            io.on('new status:#{ns}', function(data) {
                 $scope.$apply(function() {
                     var name = data.name;
                     var elementToUpdate = _.find($scope.Statuses, function(value) {
@@ -32,9 +21,16 @@ block content
                     elementToUpdate.status = data.status;
                 });
             });
+
+            $scope.getWidth = function(status) {
+                var range = status.max - status.min;
+                var fraction = status.value / range;
+                var percentage = fraction * 100;
+                return { width: percentage + "%" };
+            };
         };
 
-    h1 hello there!
+    h1 #{ns}
 
     #statuses(ng-controller="StatusController")
         ul
@@ -42,7 +38,9 @@ block content
                 div.name {{status.name}}
                 
                 div.stoplight(ng-show="status.status.type == 'stoplight'")
-                    {{status.status.color}}
+                    div.stoplight(ng-class="status.status.color")
+                        {{status.status.label}}
 
                 div.meter(ng-show="status.status.type == 'meter'")
-                    {{status.status.value}}
+                    div.gauge(ng-style="getWidth(status.status)")
+                        {{status.status.label}}

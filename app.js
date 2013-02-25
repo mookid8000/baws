@@ -16,18 +16,16 @@ io.on('connection', function(socket) {
     //socket.on('new status', function(data) { });
 });
 
-io.on('my other event', function(socket) {
-    console.log('hit the other handler')
-})
-
-app.get('/', function(req, res) {
-    res.render('index');
+app.get('/:ns', function(req, res) {
+    res.render('index', {
+        ns: req.params.ns
+    });
 });
 
 app.post('/status', function(req, res) {
     var body = req.body;
     //console.log('%s/%s: %s', body.ns, body.name, body.status.color);
-    req.io.broadcast('new status', body);
+    req.io.broadcast('new status:' + body.ns, body);
     res.end();
 });
 
