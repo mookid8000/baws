@@ -4,8 +4,8 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "node.js": "0.4.7",
     "express.io": "*",
-    "mongodb": "1.2",
     "jade": "*"
   }
 }
