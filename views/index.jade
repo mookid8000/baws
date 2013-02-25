@@ -40,7 +40,7 @@ block content
             pre
                 ~ POST /status
                 ~ {
-                ~     ns: "BigSystem",
+                ~     ns: "#{ns}",
                 ~     name: "SomeMachine:Ram",
                 ~     status: {
                 ~         type: "meter",
@@ -53,7 +53,7 @@ block content
                 ~
                 ~ POST /status
                 ~ {
-                ~     ns: "BigSystem",
+                ~     ns: "#{ns}",
                 ~     name: "SomeProgram:CI-status",
                 ~     status: {
                 ~         type: "stoplight",
