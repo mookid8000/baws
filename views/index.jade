@@ -18,18 +18,19 @@ block content
             ];
 
             io.on('new status', function(data) {
-                var name = data.name;
-                var elementToUpdate = _.find($scope.Statuses, function(value) {
-                    return value.name === name;
+                $scope.$apply(function() {
+                    var name = data.name;
+                    var elementToUpdate = _.find($scope.Statuses, function(value) {
+                        return value.name === name;
+                    });
+
+                    if (typeof elementToUpdate === 'undefined') {
+                        elementToUpdate = {ns: data.ns, name: data.name};
+                        $scope.Statuses.push(elementToUpdate);
+                    }
+
+                    elementToUpdate.status = data.status;
                 });
-
-                if (typeof elementToUpdate === 'undefined') {
-                    elementToUpdate = {ns: data.ns, name: data.name};
-
-                    $scope.Statuses.push(elementToUpdate);
-                }
-
-                elementToUpdate.status = data.status;
             });
         };
 
