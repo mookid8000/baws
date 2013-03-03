@@ -5,7 +5,8 @@
   "private": true,
   "dependencies": {
     "express.io": "*",
-    "jade": "*"
+    "jade": "*",
+    "mongodb": "*"
   },
   "engines": {
     "node": ">0.8",

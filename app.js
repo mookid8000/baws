@@ -1,6 +1,7 @@
 var express = require('express.io');
 var app = express().http().io();
 var io = app.io;
+var mongo = require('mongodb')
 
 app.use(express.bodyParser());
 app.use(express.static('public'));
@@ -20,6 +21,12 @@ app.post('/status', function(req, res) {
     var body = req.body;
     req.io.broadcast('new status:' + body.ns, body);
     res.end();
+});
+
+mongo.connect('mongodb://192.168.33.130/baws', function(err, db) {
+    db.collection('what', function(err, c) {
+        c.insert({text: "hello world!"})
+    })
 });
 
 app.listen(process.env.PORT || 3000);
