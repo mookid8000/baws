@@ -1,0 +1,13 @@
+{
+  "name": "baws-mongodb",
+  "description": "dashbawrd like a baws in MongoDB",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "q-mongodb": "*"
+  },
+  "engines": {
+    "node": ">0.8",
+    "npm": ">1.1"
+  }
+}

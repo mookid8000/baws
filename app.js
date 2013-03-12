@@ -3,7 +3,7 @@ var app = express().http().io();
 var io = app.io;
 var mongo = require('mongodb');
 var qmongo = require('q-mongodb');
-var baws = require('baws-mongodb');
+var baws = require('./lib/baws-mongodb');
 
 app.use(express.bodyParser());
 app.use(express.static('public'));
