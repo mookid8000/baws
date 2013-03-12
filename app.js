@@ -1,7 +1,9 @@
 var express = require('express.io');
 var app = express().http().io();
 var io = app.io;
-var mongo = require('mongodb')
+var mongo = require('mongodb');
+var qmongo = require('q-mongodb');
+var baws = require('baws-mongodb');
 
 app.use(express.bodyParser());
 app.use(express.static('public'));
@@ -14,19 +16,21 @@ app.get('/', function(req, res) {
 });
 
 app.get('/:ns', function(req, res) {
-    res.render('index', { ns: req.params.ns });
+    var ns = req.params.ns;
+
+    res.render('index', { ns: ns });
 });
 
 app.post('/status', function(req, res) {
-    var body = req.body;
-    req.io.broadcast('new status:' + body.ns, body);
-    res.end();
+    var status = req.body;
+    status.time = new Date();
+
+    req.io.broadcast('new status:' + status.ns, status);
+
+    baws.insertStatus(status, function(err) {
+        res.end();
+    });
 });
 
-mongo.connect('mongodb://192.168.33.130/baws', function(err, db) {
-    db.collection('what', function(err, c) {
-        c.insert({text: "hello world!"})
-    })
-});
-
+console.log('listening...')
 app.listen(process.env.PORT || 3000);

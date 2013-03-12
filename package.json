@@ -6,7 +6,7 @@
   "dependencies": {
     "express.io": "*",
     "jade": "*",
-    "mongodb": "*"
+    "q-mongodb": "*"
   },
   "engines": {
     "node": ">0.8",
