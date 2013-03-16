@@ -16,7 +16,10 @@ app.get('/', function(req, res) {
 app.get('/:ns', function(req, res) {
     var ns = req.params.ns;
 
-    res.render('index', { ns: ns });
+    baws.loadRecentStatus(ns, function(err, statuses) {
+        console.log('got ' + statuses.length + ' statuses....');
+        res.render('index', { ns: ns, initialStatuses: JSON.stringify(statuses) });
+    });
 });
 
 app.post('/status', function(req, res) {

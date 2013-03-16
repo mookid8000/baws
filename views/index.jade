@@ -4,7 +4,7 @@ block content
         var io = io.connect();
 
         function StatusController($scope) {
-            $scope.Statuses = [];
+            $scope.Statuses = !{initialStatuses};
 
             io.on('new status:#{ns}', function(data) {
                 $scope.$apply(function() {
