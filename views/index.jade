@@ -8,23 +8,23 @@ block content
 
             io.on('new status:#{ns}', function(data) {
                 $scope.$apply(function() {
-                    var name = data.name;
+                    var name = data.n;
                     var elementToUpdate = _.find($scope.Statuses, function(value) {
-                        return value.name === name;
+                        return value.n === name;
                     });
 
                     if (typeof elementToUpdate === 'undefined') {
-                        elementToUpdate = {ns: data.ns, name: data.name};
+                        elementToUpdate = {ns: data.ns, n: data.n};
                         $scope.Statuses.push(elementToUpdate);
                     }
 
-                    elementToUpdate.status = data.status;
+                    elementToUpdate.s = data.s;
                 });
             });
 
             $scope.getWidth = function(status) {
                 var range = status.max - status.min;
-                var fraction = status.value / range;
+                var fraction = status.v / range;
                 var percentage = fraction * 100;
                 return { width: percentage + "%" };
             };
@@ -41,36 +41,36 @@ block content
                 ~ POST /status
                 ~ {
                 ~     ns: "#{ns}",
-                ~     name: "SomeMachine:Ram",
-                ~     status: {
-                ~         type: "meter",
+                ~     n: "SomeMachine:Ram",
+                ~     s: {
+                ~         t: "meter",
                 ~         min: 0,
                 ~         max: 100,
-                ~         value: 82,
-                ~         label: "4.6 GB (82 %)"
+                ~         v: 82,
+                ~         txt: "4.6 GB (82 %)"
                 ~     }
                 ~ }
                 ~
                 ~ POST /status
                 ~ {
                 ~     ns: "#{ns}",
-                ~     name: "SomeProgram:CI-status",
-                ~     status: {
-                ~         type: "stoplight",
-                ~         color: "green",
-                ~         label: "It's ok."
+                ~     n: "SomeProgram:CI-status",
+                ~     s: {
+                ~         t: "stoplight",
+                ~         c: "green",
+                ~         txt: "It's ok."
                 ~     }
                 ~ }
 
         ul
             li(ng-repeat="status in Statuses")
-                div.name {{status.name}}
-                    spam.timestamp 2013-03-16 20:05:10
+                div.name {{status.n}}
+                    spam.timestamp {{status.dt}}
                 
-                div.stoplight(ng-show="status.status.type == 'stoplight'")
-                    div.stoplight(ng-class="status.status.color")
-                        {{status.status.label}}
+                div.stoplight(ng-show="status.s.t == 'stoplight'")
+                    div.stoplight(ng-class="status.s.c")
+                        {{status.s.txt}}
 
-                div.meter(ng-show="status.status.type == 'meter'")
-                    div.gauge(ng-style="getWidth(status.status)")
-                        {{status.status.label}}
+                div.meter(ng-show="status.s.t == 'meter'")
+                    div.gauge(ng-style="getWidth(status.s)")
+                        {{status.s.txt}}

@@ -16,7 +16,7 @@ do
                 http://localhost:3000/status \
                 -H "Accept: application/json" \
                 -H "Content-Type: application/json" \
-                -d '{"ns": "test", "name": "meter'$n'", "status": {"type": "stoplight", "color": "'$value'", "label": "'$value'"}}'
+                -d '{"ns": "test", "n": "meter'$n'", "s": {"t": "stoplight", "c": "'$value'", "txt": "'$value'"}}'
         done
         sleep 1
     done
