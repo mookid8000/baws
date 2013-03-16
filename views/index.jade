@@ -65,6 +65,7 @@ block content
         ul
             li(ng-repeat="status in Statuses")
                 div.name {{status.name}}
+                    spam.timestamp 2013-03-16 20:05:10
                 
                 div.stoplight(ng-show="status.status.type == 'stoplight'")
                     div.stoplight(ng-class="status.status.color")
