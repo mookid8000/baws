@@ -3,6 +3,11 @@ var app = express().http().io();
 var io = app.io;
 var baws = require('./lib/baws-mongodb');
 
+io.configure(function () { 
+  io.set("transports", ["xhr-polling"]); 
+  io.set("polling duration", 10); 
+});
+
 app.use(express.bodyParser());
 app.use(express.static('public'));
 
