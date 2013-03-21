@@ -22,7 +22,6 @@ app.get('/:ns', function(req, res) {
     var ns = req.params.ns;
 
     baws.loadRecentStatus(ns, function(err, statuses) {
-        console.log('got ' + statuses.length + ' statuses....');
         res.render('index', { ns: ns, initialStatuses: JSON.stringify(statuses) });
     });
 });

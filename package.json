@@ -6,7 +6,8 @@
   "dependencies": {
     "express.io": "*",
     "jade": "*",
-    "mongojs": "*"
+    "mongojs": "*",
+    "underscore": "*"
   },
   "engines": {
     "node": ">0.8",
