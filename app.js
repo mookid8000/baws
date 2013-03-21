@@ -33,9 +33,8 @@ app.post('/status', function(req, res) {
         status.dt = new Date();
     }
 
-    req.io.broadcast('new status:' + status.ns, status);
-
     baws.insertStatus(status, function(err) {
+        io.sockets.emit('new status:' + status.ns, status);
         res.end();
     });
 });
