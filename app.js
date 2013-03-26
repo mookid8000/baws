@@ -29,8 +29,13 @@ app.get('/:ns', function(req, res) {
 app.post('/status', function(req, res) {
     var status = req.body;
 
-    if (typeof status.dt === 'undefined') {
-        status.dt = new Date();
+    if (typeof status.s === 'undefined') {
+        res.end();
+        return;
+    }
+
+    if (typeof status.s.dt === 'undefined') {
+        status.s.dt = new Date();
     }
 
     baws.insertStatus(status, function(err) {

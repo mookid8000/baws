@@ -65,7 +65,7 @@ block content
         ul
             li(ng-repeat="status in Statuses")
                 div.name {{status.n}}
-                    spam.timestamp {{status.dt}}
+                    spam.timestamp {{status.s.dt}}
                 
                 div.stoplight(ng-show="status.s.t == 'stoplight'")
                     div.stoplight(ng-class="status.s.c")
