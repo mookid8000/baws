@@ -2,6 +2,7 @@ var express = require('express.io');
 var app = express().http().io();
 var io = app.io;
 var baws = require('./lib/baws-mongodb');
+var _ = require('underscore');
 
 io.configure(function () { 
   io.set("transports", ["xhr-polling"]); 
@@ -21,9 +22,29 @@ app.get('/', function(req, res) {
 app.get('/:ns', function(req, res) {
     var ns = req.params.ns;
 
-    baws.loadRecentStatus(ns, function(err, statuses) {
+    baws.loadCurrentStatuses(ns, function(err, statuses) {
         res.render('index', { ns: ns, initialStatuses: JSON.stringify(statuses) });
     });
+});
+
+app.get('/:ns/:n', function(req, res) {
+    var ns = req.params.ns;
+    var name = req.params.n;
+
+    baws.loadCurrentStatus(ns, name, function(err, status) {
+        baws.loadStatusHistory(ns, name, 30, function(err, history) {
+            var model = { 
+                ns: ns, 
+                name: name, 
+                status: JSON.stringify(status),
+                history: JSON.stringify(_.map(history, function(h) {
+                    return h.s;
+                }))
+            };
+
+            res.render('show', model);
+        });
+    })
 });
 
 app.post('/status', function(req, res) {

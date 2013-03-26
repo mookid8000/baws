@@ -1,0 +1,51 @@
+extend layout
+block content
+    script(type="text/javascript")
+        var io = io.connect();
+
+        function CurrentStatusController($scope) {
+            $scope.status = !{status};
+            $scope.history = !{history};
+
+            io.on('new status:#{ns}', function(data) {
+                $scope.$apply(function() {
+                    var name = data.n;
+                    
+                    if (name !== '#{name}') {
+                        return;
+                    }
+
+                    var status = data.s;
+
+                    $scope.status.s = status;
+                    $scope.history.push(status);
+                });
+            });
+        }
+
+    a(href='/#{ns}') &lt;- back
+
+    #status(ng-controller="CurrentStatusController")
+        h1 #{ns} / #{name}
+
+        span.timestamp {{status.s.dt}}
+    
+        div
+            div.stoplight(ng-show="status.s.t == 'stoplight'")
+                div.stoplight(ng-class="status.s.c")
+                    {{status.s.txt}}
+
+            div.meter(ng-show="status.s.t == 'meter'")
+                div.gauge(ng-style="getWidth(status.s)")
+                    {{status.s.txt}}
+
+        div#placeholder
+
+    script(type="text/javascript")
+        $(function() {
+            var data = [[0, 0], [1, 4], [2, 10]];
+            var options = {yaxis: {max: 10}};
+            var element = $("#placeholder");
+            $.plot(element, data, options);
+            alert('ey!');
+        })
